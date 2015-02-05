@@ -502,9 +502,13 @@ later.parse.recur = function () {
     * recur().at('08:00:00').on(2).dayOfWeek().except()
     *    .dayOfWeekCount(1);
     *
+    * @param {String} tag: An optional tag used to cancel an exception
     * @api public
     */
-    except: function () {
+    except: function (tag) {
+      if (tag) {
+        // TODO add to some object to store the tag and related array
+      }
       curArr = exceptions;
       cur = null;
       return this;
