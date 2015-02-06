@@ -14,6 +14,8 @@ later.parse.recur = function () {
 
   var schedules = [],
       exceptions = [],
+      exceptionTags = {},
+      settingException = false,
       cur,
       curArr = schedules,
       curName,
@@ -507,7 +509,8 @@ later.parse.recur = function () {
     */
     except: function (tag) {
       if (tag) {
-        // TODO add to some object to store the tag and related array
+        settingException = true;
+        exceptionTags[tag] = tag;
       }
       curArr = exceptions;
       cur = null;
