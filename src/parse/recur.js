@@ -14,7 +14,7 @@ later.parse.recur = function () {
 
   var schedules = [],
       exceptions = [],
-      exceptionTags = {},
+      newException = {},
       settingException = false,
       cur,
       curArr = schedules,
@@ -31,10 +31,12 @@ later.parse.recur = function () {
   function add(name, min, max) {
     name = modifier ? name + '_' + modifier : name;
 
-    if (!cur) {
+    if (settingException && !cur) {
+      currArr.push(newException);
+    } else if (!cur) {
       curArr.push({});
-      cur = curArr[0];
     }
+    cur = curArr[0];
 
     if (!cur[name]) {
       cur[name] = [];
@@ -489,6 +491,8 @@ later.parse.recur = function () {
     * @api public
     */
     and: function () {
+      newException = {};
+      settingException = false;
       cur = curArr[curArr.push({}) - 1];
       return this;
     },
@@ -509,9 +513,9 @@ later.parse.recur = function () {
     */
     except: function (tag) {
       if (tag) {
-        settingException = true;
-        exceptionTags[tag] = tag;
+        newException[tag] = tag;
       }
+      settingException = true;
       curArr = exceptions;
       cur = null;
       return this;
