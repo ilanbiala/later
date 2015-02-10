@@ -490,10 +490,21 @@ later.parse.recur = function () {
     *
     * @api public
     */
-    and: function () {
+    and: function (exceptionTag) {
+      if (settingException) {
+        if (exceptionTag) {
+          
+        } else {
+          
+        }
+        cur = curArr[curArr.push({}) - 1];
+      } else {
+        cur = curArr[curArr.push({}) - 1];
+      }
+      
       newException = {};
       settingException = false;
-      cur = curArr[curArr.push({}) - 1];
+      
       return this;
     },
 
