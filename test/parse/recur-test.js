@@ -232,6 +232,26 @@ describe('Parse Recur', function() {
 			r.exceptions[0].tag.should.eql('Start time');
 			r.exceptions[1].tag.should.eql('Skip month');
 		});
+		
+		it('should remove an exception from the exception schedule', function() {
+			var r = recur().except('Sunday').on(0).dayOfWeek();
+			r.exceptions[0].should.eql({d: [0]});
+			r.exceptions[0].tag.should.eql('Sunday');
+			r.removeException('Monday');
+			r.exceptions.should.eql([]);
+		});
+		
+		it('should remove an exception from a composite exception schedule', function() {
+			var r = recur().except('Start time').on(5).minute().and('Skip month').on(0).month();
+			r.exceptions[0].m.should.eql([5]);
+			r.exceptions[1].M.should.eql([0]);
+			r.exceptions[0].tag.should.eql('Start time');
+			r.exceptions[1].tag.should.eql('Skip month');
+			r.removeException('Start time');
+			r.exceptions[0].tag.should.eql('Skip month');
+			r.removeException('Skip month');
+			r.exceptions.should.eql([]);
+		});
 
 	});
 
