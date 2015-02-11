@@ -528,5 +528,28 @@ later.parse.recur = function () {
       cur = null;
       return this;
     }
+    
+    /**
+    * Removes exceptions from a schedule. The given tag will be checked
+    * against the exceptions' tags in the array and will be removed
+    * based on a matching String tag. To remove an
+    * exception:
+    *
+    * var schedule = recur().at('08:00:00').on(2).dayOfWeek().except('Monday')
+    *    .dayOfWeekCount(1);
+    * schedule.removeException('Monday');
+    *
+    * @param {String} tag: An optional tag used to cancel an exception
+    * @api public
+    */
+    removeException: function (tag) {
+      for (var i = 0; i < exceptions.length; i++) {
+        if (exceptions[i].tag === tag) {
+          exceptions.splice(i, 1);
+          break;
+        }
+      }
+      return this;
+    }
   };
 };
