@@ -488,23 +488,20 @@ later.parse.recur = function () {
     * recur().every(5).minutes().on(1).dayOfWeek().and().every(10)
     *    .minutes().on(2).dayOfWeek();
     *
+    * @param {String} exceptionTag: An optional tag used to cancel an exception in a composite exception schedule
     * @api public
     */
     and: function (exceptionTag) {
-      if (settingException) {
-        if (exceptionTag) {
-          
-        } else {
-          
-        }
-        cur = curArr[curArr.push({}) - 1];
+      if (exceptionTag && settingException) {
+        cur = curArr[curArr.push({tag: tag}) - 1];
       } else {
         cur = curArr[curArr.push({}) - 1];
       }
       
-      newException = {};
-      settingException = false;
-      
+      if (currArr !== exceptions) {
+        newException = {};
+        settingException = false;
+      }
       return this;
     },
 
