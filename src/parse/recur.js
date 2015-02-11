@@ -32,11 +32,11 @@ later.parse.recur = function () {
     name = modifier ? name + '_' + modifier : name;
 
     if (settingException && !cur) {
-      currArr.push(newException);
+      cur = curArr[curArr.push(newException) - 1];
     } else if (!cur) {
       curArr.push({});
+      cur = curArr[0];
     }
-    cur = curArr[0];
 
     if (!cur[name]) {
       cur[name] = [];
@@ -493,12 +493,11 @@ later.parse.recur = function () {
     */
     and: function (exceptionTag) {
       if (exceptionTag && settingException) {
-        cur = curArr[curArr.push({tag: tag}) - 1];
+        cur = curArr[curArr.push({tag: exceptionTag}) - 1];
       } else {
         cur = curArr[curArr.push({}) - 1];
       }
-      
-      if (currArr !== exceptions) {
+      if (curArr !== exceptions) {
         newException = {};
         settingException = false;
       }
@@ -521,14 +520,14 @@ later.parse.recur = function () {
     */
     except: function (tag) {
       if (tag) {
-        newException[tag] = tag;
+        newException.tag = tag;
       }
       settingException = true;
       curArr = exceptions;
       cur = null;
       return this;
-    }
-    
+    },
+
     /**
     * Removes exceptions from a schedule. The given tag will be checked
     * against the exceptions' tags in the array and will be removed
